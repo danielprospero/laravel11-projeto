@@ -17,6 +17,11 @@ Gerar a chave
 php artisan key:generate
 ```
 
+Execulta as migration
+```
+php artisan migrate
+```
+
 Iniciar o projeto criado com Laravel
 ```
 php artisan serve
@@ -31,6 +36,15 @@ http://127.0.0.1:8000
 Criar o projeto com Laravel
 ```
 composer create-project laravel/laravel .
+```
+
+Criar as migration
+```
+php artisan make:migration create_nome_table
+
+Execulta as migration
+```
+php artisan migrate
 ```
 
 Iniciar o projeto criado com Laravel
