@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Course;
 
 class CourseController extends Controller
 {
@@ -36,9 +37,13 @@ class CourseController extends Controller
         return view('courses.update');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        return view('courses.store');
+        Course::create([
+            'name' => $request->name
+        ]);
+        
+        return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
     }
 
 }
