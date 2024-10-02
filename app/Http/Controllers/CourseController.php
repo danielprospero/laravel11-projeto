@@ -9,7 +9,12 @@ class CourseController extends Controller
 {
     public function index()
     {
-        return view('courses.index');
+
+        $courses = Course::paginate(10);
+
+        return view('courses.index', [
+            'courses' => $courses
+        ]);
     }
 
     public function create()
@@ -22,10 +27,13 @@ class CourseController extends Controller
         return view('courses.edit');
     }
 
-    public function show()
+    public function show(Course $course)
     {
-        return view('courses.show');
+        return view('courses.show', [
+            'course' => $course
+        ]);
     }
+
 
     public function delete()
     {
