@@ -11,5 +11,5 @@
 
  
     <a href="{{ route('courses.index') }}">Listar</a> <br>
-    <a href="{{ route('courses.edit') }}">Editar</a> <br>
+    <a href="{{ route('courses.edit', $course->id) }}">Editar</a> <br>
 @endsection

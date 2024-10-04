@@ -22,9 +22,11 @@ class CourseController extends Controller
         return view('courses.create');
     }
 
-    public function edit()
+    public function edit(Course $course)
     {
-        return view('courses.edit');
+        return view('courses.edit', [
+            'course' => $course
+        ]);
     }
 
     public function show(Course $course)
@@ -40,9 +42,13 @@ class CourseController extends Controller
         return view('courses.delete');
     }
 
-    public function update()
+    public function update(Request $request, Course $course)
     {
-        return view('courses.update');
+        $course->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
     }
 
     public function store(Request $request)
