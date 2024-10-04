@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
 
-Route::get('/', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/index-course', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/create-course', [CourseController::class, 'create'])->name('courses.create');
