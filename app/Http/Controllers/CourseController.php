@@ -37,11 +37,14 @@ class CourseController extends Controller
     }
 
 
-    public function delete()
+    public function destroy(Course $course)
     {
-        return view('courses.delete');
-    }
+        
+        $course->delete();
 
+        return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
+    }
+      
     public function update(Request $request, Course $course)
     {
         $course->update([

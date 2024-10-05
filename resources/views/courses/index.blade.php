@@ -32,6 +32,11 @@
                         <a href="{{ route('courses.destroy', ['course' => $course->id]) }}" onclick="event.preventDefault(); if (confirm('Deseja excluir o curso?')) { document.getElementById('form-course-destroy-{{ $course->id }}').submit(); }">Excluir</a>
                     </td>
                 </tr>
+                <form id="form-course-destroy-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course->id]) }}" method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
+
             @empty
                 <tr>
                     <td colspan="5">Nenhum curso cadastrado</td>
