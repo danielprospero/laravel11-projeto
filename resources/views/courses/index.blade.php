@@ -14,6 +14,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
+                <th>Preço</th>
                 <th>Criado em</th>
                 <th>Atualizado em</th>
                 <th>Ações</th>
@@ -24,6 +25,7 @@
                 <tr>
                     <td>{{ $course->id }}</td>
                     <td>{{ $course->name }}</td>
+                    <td>{{ number_format($course->price, 2, ',', '.') }}</td>
                     <td>{{ $course->created_at->format('d/m/Y H:i:s') }}</td>
                     <td>{{ $course->updated_at->format('d/m/Y H:i:s') }}</td>
                     <td>

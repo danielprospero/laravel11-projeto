@@ -48,7 +48,8 @@ class CourseController extends Controller
     public function update(Request $request, Course $course)
     {
         $course->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'price' => $request->price
         ]);
 
         return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
@@ -57,7 +58,8 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         Course::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'price' => $request->price
         ]);
         
         return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');

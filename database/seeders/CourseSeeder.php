@@ -15,22 +15,27 @@ class CourseSeeder extends Seeder
     {
         Course::create([
             'name' => 'Laravel 10',
+            'price' => 100.10
         ]);
 
         Course::create([
             'name' => 'React',
+            'price' => 200.20
         ]);
 
         Course::create([
             'name' => 'Vue',
+            'price' => 300.10
         ]);
 
         Course::create([
             'name' => 'Angular',
+            'price' => 400.50
         ]);
 
         Course::create([
             'name' => 'Node',
+            'price' => 100.50
         ]);
 
     }

@@ -14,6 +14,9 @@
         @method('PUT')
         <label for="name">Nome do curso</label>
         <input type="text" name="name" placeholder="Nome do curso" value="{{ old('name', $course->name) }}" required>
+        <br>
+        <label for="price">Preço do curso</label>
+        <input type="text" name="price" placeholder="Preço do curso" value="{{ old('price', $course->price) }}" required>
         <button type="submit">Atualizar</button>
     </form>
 

@@ -6,6 +6,7 @@
 
     <p>ID: {{ $course->id }}</p>
     <p>Nome: {{ $course->name }}</p>
+    <p>Preço: R$ {{ number_format($course->price, 2, ',', '.') }}</p>
     <p>Criado em: {{ $course->created_at->format('d/m/Y H:i:s') }}</p>
     <p>Atualizado em: {{ $course->updated_at->format('d/m/Y H:i:s') }}</p>
 

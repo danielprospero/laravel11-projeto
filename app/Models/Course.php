@@ -10,5 +10,6 @@ class Course extends Model
     use HasFactory;
 
     protected $table = 'courses';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'price'];
+
 }
