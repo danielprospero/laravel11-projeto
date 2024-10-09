@@ -11,6 +11,7 @@
     <p>Atualizado em: {{ $course->updated_at->format('d/m/Y H:i:s') }}</p>
 
  
-    <a href="{{ route('courses.index') }}">Listar</a> <br>
-    <a href="{{ route('courses.edit', $course->id) }}">Editar</a> <br>
+    <a href="{{ route('course.index') }}">Listar</a> <br>
+    <a href="{{ route('course.edit', $course->id) }}">Editar</a> <br>
 @endsection
+

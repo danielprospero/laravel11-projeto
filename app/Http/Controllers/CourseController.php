@@ -40,7 +40,7 @@ class CourseController extends Controller
             'price' => $request->price
         ]);
         
-        return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
+        return redirect()->route('course.create')->with('success', 'Curso criado com sucesso!');
     }
 
     /**
@@ -75,7 +75,7 @@ class CourseController extends Controller
             'price' => $request->price
         ]);
 
-        return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
+        return redirect()->route('course.index')->with('success', 'Curso atualizado com sucesso!');
     }
 
     /**
@@ -86,7 +86,6 @@ class CourseController extends Controller
         
         $course->delete();
 
-        return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
+        return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
     }
-
 }

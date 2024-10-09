@@ -19,3 +19,6 @@ Route::post('/store-course', [CourseController::class, 'store'])->name('course.s
 
 // Aulas
 Route::get('/index-classe/{course}', [ClasseController::class, 'index'])->name('classe.index');
+Route::get('/show-classe/{classe}', [ClasseController::class, 'show'])->name('classe.show');
+Route::get('/create-classe/{course}', [ClasseController::class, 'create'])->name('classe.create');
+Route::post('/store-classe', [ClasseController::class, 'store'])->name('classe.store');

@@ -4,7 +4,8 @@
 
     <h2>Listar as aulas</h2>   
 
-    <a href="{{ route('course.index') }}">Voltar</a> 
+    <a href="{{ route('course.index') }}">Voltar</a>
+    <a href="{{ route('classe.create', ['course' => $course->id]) }}">Cadastrar aula</a>
 
     <x-alert/>
 

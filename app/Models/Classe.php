@@ -14,7 +14,7 @@ class Classe extends Model
 
     // Indicar quais columas poder ser preenchidas
     protected $fillable = ['name', 'description', 'order_classe', 'course_id'];
-    
+
     // Relacionamento N:1 muitos para um com a tabela courses
     public function course()
     {
