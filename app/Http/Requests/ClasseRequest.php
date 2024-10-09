@@ -11,7 +11,7 @@ class ClasseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class ClasseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'description' => 'required',
+            'course_id' => 'required'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O campo nome é obrigatório',
+            'description.required' => 'O campo descrição é obrigatório',
+            'course_id.required' => 'O campo curso é obrigatório'
         ];
     }
 }

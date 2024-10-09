@@ -2,24 +2,31 @@
 
 @section('content')
 
-    <h2>Cadastrar aula</h2>   
+    <h2>Editar aula</h2>   
 
     <a href="{{ route('course.index') }}">Voltar</a>
     <a href="{{ route('classe.index', ['course' => $course->id]) }}">Listar aulas</a>
 
     <x-alert/>
 
-    <form action="{{ route('classe.store') }}" method="post">
+    <form action="{{ route('classe.update', $classe->id) }}" method="post">
         @csrf
+        @method('PUT')
         <label for="name">Nome:</label><br>
-        <input type="text" name="name" id="name" value="{{ old('name') }}" required><br>
+        <input type="text" name="name" id="name" value="{{ $classe->name }}" required><br>
         @error('name')
             {{ $message }}
         @enderror
         <br>
         <label for="description">Descrição:</label><br>
-        <textarea name="description" id="description" required>{{ old('description') }}</textarea><br>
+        <textarea name="description" id="description" required>{{ $classe->description }}</textarea><br>
         @error('description')
+            {{ $message }}
+        @enderror
+        <br>
+        <label for="order_classe">Ordenação:</label><br>
+        <input type="number" name="order_classe" id="order_classe" value="{{ $classe->order_classe }}" required><br>
+        @error('order_classe')
             {{ $message }}
         @enderror
         <br>
@@ -30,8 +37,7 @@
             {{ $message }}
         @enderror
         <br>
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Atualizar</button>
     </form>
 
 @endsection
-

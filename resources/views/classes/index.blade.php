@@ -22,18 +22,21 @@
         @forelse ($classes as $classe)
             <tr>
                 <td>{{ $classe->name }}</td>
-                <td>{{ $classe->description }}</td>
+                <td>{{ \Illuminate\Support\Str::limit($classe->description, 50) }}</td>
                 <td>{{ $classe->order_classe }}</td>
                 <td>{{ $classe->course->name }}</td>
                 <td>{{ \Carbon\Carbon::parse($classe->created_at)->format('d/m/Y H:i:s') }}</td>
                 <td>{{ \Carbon\Carbon::parse($classe->updated_at)->format('d/m/Y H:i:s') }}</td>
                 <td>
-                    {{-- <a href="{{ route('classe.edit', $classe->id) }}">Editar</a>
-                    <form action="{{ route('classe.destroy', $classe->id) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Excluir</button>
-                    </form> --}}
+                    <div class="d-flex">
+                        <button onclick="window.location.href='{{ route('classe.edit', ['course' => $course->id, 'classe' => $classe->id]) }}'">Editar</button>
+                        <button onclick="window.location.href='{{ route('classe.show', ['course' => $course->id, 'classe' => $classe->id]) }}'">Visualizar</button>
+                        <form action="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Excluir</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         @empty
