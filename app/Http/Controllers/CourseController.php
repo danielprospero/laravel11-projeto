@@ -8,6 +8,9 @@ use App\Http\Requests\CourseRequest;
 
 class CourseController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
 
@@ -18,18 +21,31 @@ class CourseController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('courses.create');
     }
 
-    public function edit(Course $course)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(CourseRequest $request)
     {
-        return view('courses.edit', [
-            'course' => $course
+        $request->validated();
+        Course::create([
+            'name' => $request->name,
+            'price' => $request->price
         ]);
+        
+        return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(Course $course)
     {
         return view('courses.show', [
@@ -37,15 +53,19 @@ class CourseController extends Controller
         ]);
     }
 
-
-    public function destroy(Course $course)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Course $course)
     {
-        
-        $course->delete();
-
-        return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
+        return view('courses.edit', [
+            'course' => $course
+        ]);
     }
-      
+
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(CourseRequest $request, Course $course)
     {
         $request->validated();
@@ -58,15 +78,15 @@ class CourseController extends Controller
         return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
     }
 
-    public function store(CourseRequest $request)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Course $course)
     {
-        $request->validated();
-        Course::create([
-            'name' => $request->name,
-            'price' => $request->price
-        ]);
         
-        return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
+        $course->delete();
+
+        return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
     }
 
 }

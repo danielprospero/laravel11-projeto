@@ -3,7 +3,7 @@
 @section('content')
     <h2>Listar os cursos</h2>
  
-    <a href="{{ route('courses.create') }}">Criar um curso</a> <br>
+    <a href="{{ route('course.create') }}">Criar um curso</a> <br>
 
     <x-alert/>
 
@@ -27,12 +27,13 @@
                     <td>{{ $course->created_at->format('d/m/Y H:i:s') }}</td>
                     <td>{{ $course->updated_at->format('d/m/Y H:i:s') }}</td>
                     <td>
-                        <a href="{{ route('courses.show', ['course' => $course->id]) }}">Visualizar</a>
-                        <a href="{{ route('courses.edit', ['course' => $course->id]) }}">Editar</a>
-                        <a href="{{ route('courses.destroy', ['course' => $course->id]) }}" onclick="event.preventDefault(); if (confirm('Deseja excluir o curso?')) { document.getElementById('form-course-destroy-{{ $course->id }}').submit(); }">Excluir</a>
+                        <a href="{{ route('classe.index', ['course' => $course->id]) }}">Aulas</a>
+                        <a href="{{ route('course.show', ['course' => $course->id]) }}">Visualizar</a>
+                        <a href="{{ route('course.edit', ['course' => $course->id]) }}">Editar</a>
+                        <a href="{{ route('course.destroy', ['course' => $course->id]) }}" onclick="event.preventDefault(); if (confirm('Deseja excluir o curso?')) { document.getElementById('form-course-destroy-{{ $course->id }}').submit(); }">Excluir</a>
                     </td>
                 </tr>
-                <form id="form-course-destroy-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course->id]) }}" method="POST" style="display: none;">
+                <form id="form-course-destroy-{{ $course->id }}" action="{{ route('course.destroy', ['course' => $course->id]) }}" method="POST" style="display: none;">
                     @csrf
                     @method('DELETE')
                 </form>

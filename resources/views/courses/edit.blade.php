@@ -3,11 +3,11 @@
 @section('content')
     <h2>Editar o cursos</h2>
  
-    <a href="{{ route('courses.index') }}">Listar</a> <br>
+    <a href="{{ route('course.index') }}">Listar</a> <br>
 
     <x-alert/>
 
-    <form action="{{ route('courses.update', $course->id) }}"  method="POST">
+    <form action="{{ route('course.update', $course->id) }}"  method="POST">
         @csrf
         @method('PUT')
         <label for="name">Nome do curso</label>
