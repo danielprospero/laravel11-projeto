@@ -5,17 +5,7 @@
  
     <a href="{{ route('courses.index') }}">Listar</a> <br>
 
-    @if (session('success'))
-        <p style="color: green">{{ session('success') }}</p>
-    @endif
-
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li style="color: red">{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <x-alert/>
 
     <form action="{{ route('courses.update', $course->id) }}"  method="POST">
         @csrf

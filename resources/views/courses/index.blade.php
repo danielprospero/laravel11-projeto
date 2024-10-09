@@ -5,9 +5,7 @@
  
     <a href="{{ route('courses.create') }}">Criar um curso</a> <br>
 
-    @if (session('success'))
-        <p style="color: green">{{ session('success') }}</p>
-    @endif
+    <x-alert/>
 
     <table>
         <thead>
