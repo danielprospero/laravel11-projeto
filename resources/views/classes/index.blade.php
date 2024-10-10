@@ -31,7 +31,7 @@
                     <div class="d-flex">
                         <button onclick="window.location.href='{{ route('classe.edit', ['course' => $course->id, 'classe' => $classe->id]) }}'">Editar</button>
                         <button onclick="window.location.href='{{ route('classe.show', ['course' => $course->id, 'classe' => $classe->id]) }}'">Visualizar</button>
-                        <form action="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" method="post">
+                        <form action="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" method="post" onclick="return confirm('Tem certeza que deseja excluir?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Excluir</button>

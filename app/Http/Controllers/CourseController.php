@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Http\Requests\CourseRequest;
-
+use Illuminate\Support\Facades\DB;
 class CourseController extends Controller
 {
     /**
@@ -83,9 +83,15 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        
-        $course->delete();
+        DB::beginTransaction();
+        try {
+            $course->delete();
+            DB::commit();
+            return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('course.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
+        }
 
-        return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
     }
 }

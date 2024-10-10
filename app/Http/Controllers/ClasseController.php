@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClasseRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Classe;
 use App\Models\Course;
@@ -101,11 +102,21 @@ class ClasseController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Classe $classe)
-    {
-        // Deletar a aula
-        $classe->delete();
-
-        // Redirecionar para a página de aulas
-        return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula deletada com sucesso!');
+    {   
+        // Iniciar a transação
+        DB::beginTransaction();
+        try {
+            // Deletar a aula
+            $classe->delete();
+            // Atualizar a ordem das aulas
+            DB::commit();
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula deletada com sucesso!');
+        } catch (\Exception $e) {
+            // Desfazer a transação
+            DB::rollBack();
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $classe->course_id])->with('error', 'Não foi possível deletar a aula!');
+        }
     }
 }
