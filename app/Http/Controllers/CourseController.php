@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Http\Requests\CourseRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 class CourseController extends Controller
 {
     /**
@@ -15,6 +16,8 @@ class CourseController extends Controller
     {
 
         $courses = Course::paginate(10);
+
+        Log::info('Listando cursos');
 
         return view('courses.index', [
             'courses' => $courses
@@ -34,13 +37,22 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request)
     {
-        $request->validated();
-        Course::create([
-            'name' => $request->name,
-            'price' => $request->price
-        ]);
-        
-        return redirect()->route('course.create')->with('success', 'Curso criado com sucesso!');
+        DB::beginTransaction();
+        try{
+            $request->validated();
+            Course::create([
+                'name' => $request->name,
+                'price' => $request->price
+            ]);
+            Log::info('Curso criado: ' . $request->name);
+            DB::commit();
+            return redirect()->route('course.create')->with('success', 'Curso criado com sucesso!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::worning('Erro ao criar curso: ' . $e->getMessage());
+            return redirect()->route('course.create')->with('error', 'Erro ao criar curso!');
+        }
     }
 
     /**
@@ -48,6 +60,8 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
+
+        Log::info('Exibindo curso: ' . $course->name);
         return view('courses.show', [
             'course' => $course
         ]);
@@ -68,14 +82,22 @@ class CourseController extends Controller
      */
     public function update(CourseRequest $request, Course $course)
     {
-        $request->validated();
-        
-        $course->update([
-            'name' => $request->name,
-            'price' => $request->price
-        ]);
-
-        return redirect()->route('course.index')->with('success', 'Curso atualizado com sucesso!');
+        DB::beginTransaction();
+        try{
+            $request->validated();
+            
+            $course->update([
+                'name' => $request->name,
+                'price' => $request->price
+            ]);
+            DB::commit();
+            Log::info('Curso atualizado: ' . $request->name);
+            return redirect()->route('course.index')->with('success', 'Curso atualizado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::warning('Erro ao atualizar curso: ' . $e->getMessage());
+            return redirect()->route('course.edit', $course)->with('error', 'Erro ao atualizar curso!');
+        }
     }
 
     /**
@@ -87,9 +109,11 @@ class CourseController extends Controller
         try {
             $course->delete();
             DB::commit();
+            Log::info('Curso deletado: ' . $course->name);
             return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::warning('Erro ao deletar curso: ' . $e->getMessage());
             return redirect()->route('course.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
         }
 
