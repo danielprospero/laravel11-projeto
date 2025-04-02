@@ -3,6 +3,21 @@
 * PHP 8.2 ou superior
 * Composer
 
+## Sequencia para criar o projeto
+Criar o projeto com Laravel
+```
+composer create-project laravel/laravel:^11.0 nome-do-projeto ou .
+```
+
+Iniciar o projeto criado com Laravel
+```
+php artisan serve
+```
+
+Acessar o conteúdo padrão do Laravel
+```
+http://127.0.0.1:8000
+
 ## Como rodar o projeto baixado
 
 Duplicar o arquivo ".env.example" e renomear para ".env".<br>
@@ -15,36 +30,6 @@ composer install
 Gerar a chave
 ```
 php artisan key:generate
-```
-
-Execulta as migration
-```
-php artisan migrate
-```
-
-Iniciar o projeto criado com Laravel
-```
-php artisan serve
-```
-
-Acessar o conteúdo padrão do Laravel
-```
-http://127.0.0.1:8000
-```
-
-## Sequencia para criar o projeto
-Criar o projeto com Laravel
-```
-composer create-project laravel/laravel .
-```
-
-Criar as migration
-```
-php artisan make:migration create_nome_table
-
-Execulta as migration
-```
-php artisan migrate
 ```
 
 Iniciar o projeto criado com Laravel

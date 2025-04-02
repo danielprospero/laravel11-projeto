@@ -1,15 +1,16 @@
-@extends('layouts.admin') {{-- Certifique-se de estar estendendo um layout, se necessário --}}
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
-    <h2>Listar os cursos</h2>
- 
-    <a href="{{ route('course.create') }}">Criar um curso</a> <br>
+        <title>Celke</title>
 
-    @if (session('success'))
-        <p style="color: green">{{ session('success') }}</p>
-    @endif
+    </head>
+    <body >
+        <h1>Bem-vindo ao Laravel 11</h1>
 
-    <a href="{{ route('course.index') }}">Listar</a> <br>
-    <a href="{{ route('course.create') }}">Criar um curso</a> <br>
-
-@endsection
+        {{-- <P>Data Atual: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</P> --}}
+  
+    </body>
+</html>
