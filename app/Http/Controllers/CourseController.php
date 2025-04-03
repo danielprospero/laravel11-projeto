@@ -46,12 +46,12 @@ class CourseController extends Controller
             ]);
             Log::info('Curso criado: ' . $request->name);
             DB::commit();
-            return redirect()->route('course.create')->with('success', 'Curso criado com sucesso!');
+            return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::worning('Erro ao criar curso: ' . $e->getMessage());
-            return redirect()->route('course.create')->with('error', 'Erro ao criar curso!');
+            Log::warning('Erro ao criar curso: ' . $e->getMessage());
+            return redirect()->route('courses.create')->with('error', 'Erro ao criar curso!');
         }
     }
 
@@ -92,11 +92,11 @@ class CourseController extends Controller
             ]);
             DB::commit();
             Log::info('Curso atualizado: ' . $request->name);
-            return redirect()->route('course.index')->with('success', 'Curso atualizado com sucesso!');
+            return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::warning('Erro ao atualizar curso: ' . $e->getMessage());
-            return redirect()->route('course.edit', $course)->with('error', 'Erro ao atualizar curso!');
+            return redirect()->route('courses.edit', $course)->with('error', 'Erro ao atualizar curso!');
         }
     }
 
@@ -110,11 +110,11 @@ class CourseController extends Controller
             $course->delete();
             DB::commit();
             Log::info('Curso deletado: ' . $course->name);
-            return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
+            return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::warning('Erro ao deletar curso: ' . $e->getMessage());
-            return redirect()->route('course.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
+            return redirect()->route('courses.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
         }
 
     }

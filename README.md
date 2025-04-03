@@ -40,4 +40,11 @@ php artisan serve
 Acessar o conteúdo padrão do Laravel
 ```
 http://127.0.0.1:8000
+
+Criar a migration
 ```
+php artisan make:migration create_name_table
+```
+Executar as migrate
+```
+php artisan migrate
