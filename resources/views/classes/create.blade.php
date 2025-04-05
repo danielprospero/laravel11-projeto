@@ -4,12 +4,16 @@
 
     <h2>Cadastrar aula</h2>   
 
-    <a href="{{ route('course.index') }}">Voltar</a>
-    <a href="{{ route('classe.index', ['course' => $course->id]) }}">Listar aulas</a>
+    <a href="{{ route('course.index') }}">
+        <button type="button">Voltar para cursos</button>
+    </a>
+    <a href="{{ route('classe.index', ['course' => $course->id]) }}">
+        <button type="button">Voltar para aulas</button>
+    </a>
 
     <x-alert/>
 
-    <form action="{{ route('classe.store') }}" method="post">
+    <form action="{{ route('classe.store', ['course' => $course->id]) }}" method="POST">
         @csrf
         <label for="name">Nome:</label><br>
         <input type="text" name="name" id="name" value="{{ old('name') }}" required><br>

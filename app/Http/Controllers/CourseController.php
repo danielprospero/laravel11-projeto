@@ -110,11 +110,11 @@ class CourseController extends Controller
             $course->delete();
             DB::commit();
             Log::info('Curso deletado: ' . $course->name);
-            return redirect()->route('courses.index')->with('success', 'Curso deletado com sucesso!');
+            return redirect()->route('course.index')->with('success', 'Curso deletado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::warning('Erro ao deletar curso: ' . $e->getMessage());
-            return redirect()->route('courses.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
+            return redirect()->route('course.index')->with('error', 'Não foi possível deletar o curso, pois existem aulas associadas a ele!');
         }
 
     }

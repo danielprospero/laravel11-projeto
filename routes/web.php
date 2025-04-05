@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ClasseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,10 +9,19 @@ Route::get('/', function () {
 });
 
 // Cursos 
-Route::get('/index-course', [CourseController::class, 'index'])->name('courses.index');
-Route::get('/create-course', [CourseController::class, 'create'])->name('courses.create');
-Route::get('/edit-course/{course}', [CourseController::class, 'edit'])->name('courses.edit');
-Route::get('/show-course/{course}', [CourseController::class, 'show'])->name('courses.show');
-Route::delete('/destroy-course/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
-Route::put('/update-course/{course}', [CourseController::class, 'update'])->name('courses.update');
-Route::post('/store-course', [CourseController::class, 'store'])->name('courses.store');
+Route::get('/index-course', [CourseController::class, 'index'])->name('course.index');
+Route::get('/create-course', [CourseController::class, 'create'])->name('course.create');
+Route::get('/edit-course/{course}', [CourseController::class, 'edit'])->name('course.edit');
+Route::get('/show-course/{course}', [CourseController::class, 'show'])->name('course.show');
+Route::delete('/destroy-course/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
+Route::put('/update-course/{course}', [CourseController::class, 'update'])->name('course.update');
+Route::post('/store-course', [CourseController::class, 'store'])->name('course.store');
+
+// Aulas
+Route::get('/index-classe/{course}', [ClasseController::class, 'index'])->name('classe.index');
+Route::get('/create-classe/{course}', [ClasseController::class, 'create'])->name('classe.create');
+Route::get('/edit-classe/{classe}', [ClasseController::class, 'edit'])->name('classe.edit');
+Route::get('/show-classe/{classe}', [ClasseController::class, 'show'])->name('classe.show');
+Route::delete('/destroy-classe/{classe}', [ClasseController::class, 'destroy'])->name('classe.destroy');
+Route::put('/update-classe/{classe}', [ClasseController::class, 'update'])->name('classe.update');
+Route::post('/store-classe', [ClasseController::class, 'store'])->name('classe.store');

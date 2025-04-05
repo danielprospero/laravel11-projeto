@@ -7,7 +7,7 @@
     <a href="{{ route('course.index') }}">
         <button type="button">Voltar para cursos</button>
     </a>
-    <a href="{{ route('classe.create', ['course' => $course->id]) }}">
+    <a href="{{ route('classe.create', ['course' => $classe->course->id]) }}">
         <button type="button">Cadastrar Aula</button>
     </a>
 
@@ -23,7 +23,9 @@
             <th>Atualizada em</th>
             <th>Ações</th>
         </tr>
-        @forelse ($classes as $classe)
+
+            
+        @if ($classe->id)
             <tr>
                 <td>{{ $classe->name }}</td>
                 <td>{{ \Illuminate\Support\Str::limit($classe->description, 50) }}</td>
@@ -34,8 +36,7 @@
                 <td>
                     <div class="d-flex">
                         <button onclick="window.location.href='{{ route('classe.edit', ['classe' => $classe->id]) }}'">Editar</button>
-                        <button onclick="window.location.href='{{ route('classe.show', ['course' => $course->id, 'classe' => $classe->id]) }}'">Visualizar</button>
-                        <form action="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" method="post" onclick="return confirm('Tem certeza que deseja excluir?')">
+                        <form action="{{ route('classe.destroy', ['course' => $classe->course->id, 'classe' => $classe->id]) }}" method="post" onclick="return confirm('Tem certeza que deseja excluir?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Excluir</button>
@@ -43,11 +44,11 @@
                     </div>
                 </td>
             </tr>
-        @empty
+        @else
             <tr>
                 <td colspan="2">Nenhuma aula cadastrada</td>
             </tr>
-        @endforelse
+        @endif
     </table>
     
 

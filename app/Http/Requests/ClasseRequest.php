@@ -24,7 +24,7 @@ class ClasseRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'course_id' => 'required'
+            'course_id' => 'required_if:exists:courses,id'
         ];
     }
 

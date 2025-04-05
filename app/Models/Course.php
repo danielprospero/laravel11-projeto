@@ -18,7 +18,7 @@ class Course extends Model implements Auditable
     protected $fillable = ['name', 'price'];
 
     // Relacionamento 1:N um para muitos com a tabela classes
-    public function classes()
+    public function classe()
     {
         return $this->hasMany(Classe::class);
     }

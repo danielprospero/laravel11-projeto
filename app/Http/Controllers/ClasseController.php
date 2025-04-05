@@ -62,9 +62,12 @@ class ClasseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Classe $classe)
     {
-        //
+        // Carregar a view
+        return view('classes.show', [
+            'classe' => $classe
+        ]);
     }
 
     /**
@@ -74,8 +77,7 @@ class ClasseController extends Controller
     {
         // Carregar a view
         return view('classes.edit', [
-            'classe' => $classe,
-            'course' => $classe->course
+            'classe' => $classe
         ]);
     }
 
@@ -87,15 +89,24 @@ class ClasseController extends Controller
         // Validar os dados
         $request->validated();
 
-        // Atualizar a aula
-        $classe->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'order_classe' => $request->order_classe,
-        ]);
-        
-        // Redirecionar para a página de aulas  
-        return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula atualizada com sucesso!');
+        // Iniciar a transação
+        DB::beginTransaction();
+        try {
+            // Atualizar a aula
+            $classe->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+            // Atualizar a ordem das aulas
+            DB::commit();
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula atualizada com sucesso!');
+        } catch (\Exception $e) {
+            // Desfazer a transação
+            DB::rollBack();
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $classe->course_id])->with('error', 'Não foi possível atualizar a aula!');
+        }
     }
 
     /**

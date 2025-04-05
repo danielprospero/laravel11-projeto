@@ -9,6 +9,10 @@
     </head>
     <body >
         <h1>Bem-vindo ao Laravel 11</h1>
+        <actions>
+            <a href="{{ route('courses.index') }}">
+                <button type="button">Listar Cursos</button>
+            </a>
 
         {{-- <P>Data Atual: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</P> --}}
   
