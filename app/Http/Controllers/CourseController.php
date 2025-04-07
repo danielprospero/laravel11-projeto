@@ -37,6 +37,7 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request)
     {
+
         DB::beginTransaction();
         try{
             $request->validated();
@@ -46,12 +47,12 @@ class CourseController extends Controller
             ]);
             Log::info('Curso criado: ' . $request->name);
             DB::commit();
-            return redirect()->route('courses.create')->with('success', 'Curso criado com sucesso!');
+            return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::warning('Erro ao criar curso: ' . $e->getMessage());
-            return redirect()->route('courses.create')->with('error', 'Erro ao criar curso!');
+            return back()->withInput()->with('error', 'Erro ao criar curso!');
         }
     }
 
@@ -90,13 +91,14 @@ class CourseController extends Controller
                 'name' => $request->name,
                 'price' => $request->price
             ]);
+
             DB::commit();
             Log::info('Curso atualizado: ' . $request->name);
-            return redirect()->route('courses.index')->with('success', 'Curso atualizado com sucesso!');
+            return redirect()->route('course.show', $course->id)->with('success', 'Curso atualizado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::warning('Erro ao atualizar curso: ' . $e->getMessage());
-            return redirect()->route('courses.edit', $course)->with('error', 'Erro ao atualizar curso!');
+            return back()->withInput()->with('error', 'Erro ao atualizar curso!');
         }
     }
 

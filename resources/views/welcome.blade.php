@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.admin') {{-- Certifique-se de estar estendendo um layout, se necessário --}}
 
-        <title>Celke</title>
-
-    </head>
-    <body >
+@section('content')
         <h1>Bem-vindo ao Laravel 11</h1>
         <actions>
-            <a href="{{ route('courses.index') }}">
+            <a href="{{ route('course.index') }}">
                 <button type="button">Listar Cursos</button>
             </a>
-
-        {{-- <P>Data Atual: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</P> --}}
-  
-    </body>
-</html>
+@endsection

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Classe;
 use App\Models\Course;
+use Illuminate\Support\Facades\Log;
 
 class ClasseController extends Controller
 {
@@ -18,6 +19,8 @@ class ClasseController extends Controller
         // Buscar todas as aulas do curso
         $classes = Classe::with('course')->where('course_id', $course->id)->orderBy('order_classe')->get();
 
+        // log 
+        Log::info('Listando aulas do curso: ' . $course->name);
         // Carregar a view
         return view('classes.index', [
             'classes' => $classes,
@@ -44,19 +47,31 @@ class ClasseController extends Controller
         // Validar os dados
         $request->validated();
 
-        // Buscar a última aula do curso
-        $lastOrderClasse = Classe::where('course_id', $request->course_id)->orderBy('order_classe', 'desc')->first();
+        DB::beginTransaction();
 
-        // Criar uma nova aula
-        Classe::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'order_classe' => $lastOrderClasse ? $lastOrderClasse->order_classe + 1 : 1,
-            'course_id' => $request->course_id
-        ]);
-
-        // Redirecionar para a página de aulas
-        return redirect()->route('classe.index', ['course' => $request->course_id])->with('success', 'Aula criada com sucesso!');
+        try {
+            // Buscar a última aula do curso
+            $lastOrderClasse = Classe::where('course_id', $request->course_id)->orderBy('order_classe', 'desc')->first();
+            // Criar uma nova aula
+            Classe::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'order_classe' => $lastOrderClasse ? $lastOrderClasse->order_classe + 1 : 1,
+                'course_id' => $request->course_id
+            ]);
+            // log 
+            Log::info('Aula criada: ' . $request->name);
+            DB::commit();
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $request->course_id])->with('success', 'Aula criada com sucesso!');
+        } catch (\Exception $e) {
+            // Desfazer a transação
+            DB::rollBack();
+            // log
+            Log::warning('Erro ao criar aula: ' . $e->getMessage());
+            // Redirecionar para a página de aulas
+            return redirect()->route('classe.index', ['course' => $request->course_id])->with('error', 'Não foi possível criar a aula!');
+        }
     }
 
     /**
@@ -64,6 +79,8 @@ class ClasseController extends Controller
      */
     public function show(Classe $classe)
     {
+        // log
+        Log::info('Exibindo aula: ' . $classe->name);
         // Carregar a view
         return view('classes.show', [
             'classe' => $classe
@@ -99,11 +116,15 @@ class ClasseController extends Controller
             ]);
             // Atualizar a ordem das aulas
             DB::commit();
+            // log
+            Log::info('Aula atualizada: ' . $request->name);
             // Redirecionar para a página de aulas
             return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula atualizada com sucesso!');
         } catch (\Exception $e) {
             // Desfazer a transação
             DB::rollBack();
+            // log
+            Log::warning('Erro ao atualizar aula: ' . $e->getMessage());
             // Redirecionar para a página de aulas
             return redirect()->route('classe.index', ['course' => $classe->course_id])->with('error', 'Não foi possível atualizar a aula!');
         }
@@ -121,11 +142,15 @@ class ClasseController extends Controller
             $classe->delete();
             // Atualizar a ordem das aulas
             DB::commit();
+            // log
+            Log::info('Aula deletada: ' . $classe->name);
             // Redirecionar para a página de aulas
             return redirect()->route('classe.index', ['course' => $classe->course_id])->with('success', 'Aula deletada com sucesso!');
         } catch (\Exception $e) {
             // Desfazer a transação
             DB::rollBack();
+            // log
+            Log::warning('Erro ao deletar aula: ' . $e->getMessage());
             // Redirecionar para a página de aulas
             return redirect()->route('classe.index', ['course' => $classe->course_id])->with('error', 'Não foi possível deletar a aula!');
         }

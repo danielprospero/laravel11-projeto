@@ -56,5 +56,6 @@
 
             {{ $courses->links() }}
         </tbody>
+    </table>
 
 @endsection
