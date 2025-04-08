@@ -15,7 +15,7 @@ class CourseController extends Controller
     public function index()
     {
 
-        $courses = Course::paginate(10);
+        $courses = Course::orderBy('name', 'ASC')->paginate(3);
 
         Log::info('Listando cursos');
 
