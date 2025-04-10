@@ -20,7 +20,7 @@ class CourseController extends Controller
         Log::info('Listando cursos');
 
         return view('courses.index', [
-            'courses' => $courses
+            'courses' => $courses, 'menu' => 'course'
         ]);
     }
 
@@ -29,7 +29,9 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('courses.create');
+        return view('courses.create', [
+            'menu' => 'course'
+        ]);
     }
 
     /**
@@ -64,7 +66,7 @@ class CourseController extends Controller
 
         Log::info('Exibindo curso: ' . $course->name);
         return view('courses.show', [
-            'course' => $course
+            'course' => $course, 'menu' => 'course'
         ]);
     }
 
@@ -74,7 +76,7 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
         return view('courses.edit', [
-            'course' => $course
+            'course' => $course, 'menu' => 'course'
         ]);
     }
 

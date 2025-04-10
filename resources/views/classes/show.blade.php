@@ -1,55 +1,74 @@
 @extends('layouts.admin')
 
 @section('content')
+    <div class="container-fluid px-4">
+        <div class="mb-1 hstack gap-2">
+            <h2 class="mt-3">Aula</h2>
 
-    <h2>Listar as aulas</h2>   
+            <ol class="breadcrumb mb-3 mt-3 ms-auto">
+                <li class="breadcrumb-item">
+                    <a href="#" class="text-decoration-none">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('course.show', ['course' => $classe->course_id]) }}" class="text-decoration-none">Curso</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('classe.index', ['course' => $classe->course_id]) }}" class="text-decoration-none">Aulas</a>
+                </li>
+                <li class="breadcrumb-item active">Aula</li>
+            </ol>
+        </div>
 
-    <a href="{{ route('course.index') }}">
-        <button type="button">Voltar para cursos</button>
-    </a>
-    <a href="{{ route('classe.create', ['course' => $classe->course->id]) }}">
-        <button type="button">Cadastrar Aula</button>
-    </a>
+        <div class="card mb-4 border-light shadow">
 
-    <x-alert/>
+            <div class="card-header hstack gap-2">
+                <span>Visualizar</span>
 
-    <table border="1">
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Ordenação</th>
-            <th>Curso</th>
-            <th>Cadastrada em</th>
-            <th>Atualizada em</th>
-            <th>Ações</th>
-        </tr>
+                <span class="ms-auto d-sm-flex flex-row">
 
-            
-        @if ($classe->id)
-            <tr>
-                <td>{{ $classe->name }}</td>
-                <td>{{ \Illuminate\Support\Str::limit($classe->description, 50) }}</td>
-                <td>{{ $classe->order_classe }}</td>
-                <td>{{ $classe->course->name }}</td>
-                <td>{{ \Carbon\Carbon::parse($classe->created_at)->format('d/m/Y H:i:s') }}</td>
-                <td>{{ \Carbon\Carbon::parse($classe->updated_at)->format('d/m/Y H:i:s') }}</td>
-                <td>
-                    <div class="d-flex">
-                        <button onclick="window.location.href='{{ route('classe.edit', ['classe' => $classe->id]) }}'">Editar</button>
-                        <form action="{{ route('classe.destroy', ['course' => $classe->course->id, 'classe' => $classe->id]) }}" method="post" onclick="return confirm('Tem certeza que deseja excluir?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Excluir</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        @else
-            <tr>
-                <td colspan="2">Nenhuma aula cadastrada</td>
-            </tr>
-        @endif
-    </table>
-    
+                    <a href="{{ route('classe.index', ['course' => $classe->course_id]) }}" class="btn btn-info btn-sm me-1 mb-1 mb-sm-0"><i class="fa-solid fa-list"></i> Aulas</a>
 
+                    <a href="{{ route('classe.edit', ['classe' => $classe->id]) }}" class="btn btn-warning btn-sm me-1 mb-1 mb-sm-0"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+
+                    <form action="{{ route('classe.destroy', ['classe' => $classe->id])}}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja apagar este registro?')"><i class="fa-regular fa-trash-can"></i> Apagar</button>
+                    </form>
+
+                </span>
+            </div>
+
+            <div class="card-body">
+
+                <x-alert />
+
+                <dl class="row">
+                    <dt class="col-sm-3">ID: </dt>
+                    <dd class="col-sm-9">{{ $classe->id }}</dd>
+
+                    <dt class="col-sm-3">Nome: </dt>
+                    <dd class="col-sm-9">{{ $classe->name }}</dd>
+
+                    <dt class="col-sm-3">Descrição: </dt>
+                    <dd class="col-sm-9">{{ $classe->description }}</dd>
+
+                    <dt class="col-sm-3">Ordem: </dt>
+                    <dd class="col-sm-9">{{ $classe->order_classe }}</dd>
+
+                    <dt class="col-sm-3">Curso: </dt>
+                    <dd class="col-sm-9">{{ $classe->course->name }}</dd>
+
+                    <dt class="col-sm-3">Cadastrado</dt>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($classe->created_at)->format('d/m/Y H:i:s') }}</dd>
+
+                    <dt class="col-sm-3">Editado</dt>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($classe->updated_at)->format('d/m/Y H:i:s') }}</dd>
+
+                </dl>
+
+            </div>
+        </div>
+
+    </div>
 @endsection

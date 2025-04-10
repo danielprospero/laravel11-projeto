@@ -1,79 +1,82 @@
 @extends('layouts.admin')
 
 @section('content')
+    <div class="container-fluid px-4">
+        <div class="mb-1 hstack gap-2">
+            <h2 class="mt-3">Aula</h2>
 
-<div class="container-fluid px-4">
-    <div class="mb-1 hstack gap-2">
-        <h1 class="mt-3">Cursos</h1>
-        <ol class="breadcrumb mb-4 mt-3 ms-auto">
-            <li class="breadcrumb-item">
-                <a href="#" class="text-decoration-none">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('course.index') }}" class="text-decoration-none">Cursos</a>
-            </li>
-            <li class="breadcrumb-item active">Aulas</li>
-        </ol>
-    </div>
-    <div class="card ">
-        <div class="card-header hstack gap-2">
-            <span>Aulas</span>
-            <span class="ms-auto">
-                <a href="{{ route('classe.create', ['course' => $course->id]) }}" class="btn btn-primary btn-sm">
-                    <i class="fa-solid fa-plus"></i> Adicionar Aula
-                </a>
-            </span>
+            <ol class="breadcrumb mb-3 mt-3 ms-auto">
+                <li class="breadcrumb-item">
+                    <a href="#" class="text-decoration-none">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('course.index') }}" class="text-decoration-none">Cursos</a>
+                </li>
+                <li class="breadcrumb-item active">Aulas</li>
+            </ol>
         </div>
+
+        <div class="card mb-4 border-light shadow">
+
+            <div class="card-header hstack gap-2">
+                <span>Listar</span>
+
+                <span class="ms-auto">
+                    <a href="{{ route('course.show', ['course' => $course->id]) }}" class="btn btn-primary btn-sm">Curso</a>
+                    <a href="{{ route('classe.create', ['course' => $course->id]) }}" class="btn btn-success btn-sm"><i class="fa-regular fa-square-plus"></i> Cadastrar</a>
+                </span>
+            </div>
+
+            <div class="card-body">
+
+                <x-alert />
+
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="d-none d-sm-table-cell">ID</th>
+                            <th>Nome</th>
+                            <th class="d-none d-md-table-cell">Ordem</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {{-- Imprimir os registros --}}
+                        @forelse ($classes as $classe)
+                            <tr>
+                                <th class="d-none d-sm-table-cell">{{ $classe->id }}</th>
+                                <td>{{ $classe->name }}</td>
+                                <td class="d-none d-md-table-cell">{{ $classe->order_classe }}
+                                </td>
+                                <td class="d-md-flex flex-row justify-content-center">
+
+                                    <a href="{{ route('classe.show', ['classe' => $classe->id]) }}"
+                                        class="btn btn-primary btn-sm me-1 mb-1 mb-md-0"><i class="fa-regular fa-eye"></i> Visualizar</a>
+
+                                    <a href="{{ route('classe.edit', ['classe' => $classe->id]) }}"
+                                        class="btn btn-warning btn-sm me-1 mb-1 mb-md-0"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+
+                                    <form action="{{ route('classe.destroy', ['classe' => $classe->id])}}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm me-1"
+                                            onclick="return confirm('Tem certeza que deseja apagar este registro?')"><i class="fa-regular fa-trash-can"></i> Apagar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <div class="alert alert-danger" role="alert">
+                                Nenhuma aula encontrada!
+                            </div>
+                        @endforelse
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
     </div>
-    <div class="card-body">
-        <x-alert/>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Ordenação</th>
-                    <th>Curso</th>
-                    <th>Cadastrada em</th>
-                    <th>Atualizada em</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($classes as $classe)
-                    <tr>
-                        <td>{{ $classe->id }}</td>
-                        <td>{{ $classe->name }}</td>
-                        <td>{{ \Illuminate\Support\Str::limit($classe->description, 50) }}</td>
-                        <td>{{ $classe->order_classe }}</td>
-                        <td>{{ $classe->course->name }}</td>
-                        <td>{{ \Carbon\Carbon::parse($classe->created_at)->format('d/m/Y H:i:s') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($classe->updated_at)->format('d/m/Y H:i:s') }}</td>
-                        <td class="d-md-flex flex-column flex-md-row gap-2">
-                            <a href="{{ route('classe.edit', ['classe' => $classe->id]) }}" class="btn btn-warning btn-sm  mb-1 mb-md-0">
-                                Editar
-                            </a>
-                            <a href="{{ route('classe.show', ['course' => $course->id, 'classe' => $classe->id]) }}" class="btn btn-primary btn-sm  mb-1 mb-md-0">
-                                Visualizar
-                            </a>
-                            <a href="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" class="btn btn-danger btn-sm mb-md-0" onclick="event.preventDefault(); if (confirm('Deseja excluir a aula?')) { document.getElementById('form-classe-destroy-{{ $classe->id }}').submit(); }">
-                                Excluir
-                            </a>
-                            <form id="form-classe-destroy-{{ $classe->id }}" action="{{ route('classe.destroy', ['course' => $course->id, 'classe' => $classe->id]) }}" method="post" style="display: none;">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <div class="alert alert-danger" role="alert">
-                        Nenhuma aula cadastrada
-                    </div>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div>
-    
 @endsection

@@ -24,7 +24,8 @@ class ClasseController extends Controller
         // Carregar a view
         return view('classes.index', [
             'classes' => $classes,
-            'course' => $course
+            'course' => $course,
+            'menu' => 'course'
         ]);
     }
 
@@ -35,7 +36,8 @@ class ClasseController extends Controller
     {
         // Carregar a view
         return view('classes.create', [
-            'course' => $course
+            'course' => $course,
+            'menu' => 'course'
         ]);
     }
 
@@ -83,7 +85,8 @@ class ClasseController extends Controller
         Log::info('Exibindo aula: ' . $classe->name);
         // Carregar a view
         return view('classes.show', [
-            'classe' => $classe
+            'classe' => $classe,
+            'menu' => 'course'
         ]);
     }
 
